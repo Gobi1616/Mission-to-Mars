@@ -32,7 +32,7 @@ def mars_news(browser):
 
     # Scrape Mars News
     # Visit the mars nasa news site
-    url = 'https://data-class-mars.s3.amazonaws.com/Mars/index.html'
+    url = 'https://redplanetscience.com/'
     browser.visit(url)
 
     # Optional delay for loading the page
@@ -54,6 +54,7 @@ def mars_news(browser):
         return None, None
 
     return news_title, news_p
+
 
 def featured_image(browser):
     # Visit URL
@@ -81,6 +82,7 @@ def featured_image(browser):
 
     return img_url
 
+
 def mars_facts():
     # Add try/except for error handling
     try:
@@ -97,10 +99,11 @@ def mars_facts():
     # Convert dataframe into HTML format, add bootstrap
     return df.to_html()
 
+
 def hemisphere_image(browser):
     
     # Visit the URL 
-    url = 'https://astrogeology.usgs.gov/search/results?q=hemisphere+enhanced&k1=target&v1=Mars'
+    url = 'https://spaceimages-mars.com'
     browser.visit(url)
     
     # Create a list to hold the images and titles.
@@ -148,6 +151,25 @@ def hemisphere_image(browser):
     
     # Return the list that holds the dictionary of each image url and title
     return hemisphere_image_urls    
+
+
+def scrape_hemisphere(html_text):
+    # parse html text
+    hemi_soup = soup(html_text, "html.parser")
+    # adding try/except for error handling
+    try:
+        title_elem = hemi_soup.find("h2", class_="title").get_text()
+        sample_elem = hemi_soup.find("a", text="Sample").get("href")
+    except AttributeError:
+        # Image error will return None, for better front-end handling
+        title_elem = None
+        sample_elem = None
+    hemispheres = {
+        "title": title_elem,
+        "img_url": sample_elem
+    }
+    return hemispheres
+
 
 if __name__ == "__main__":
     # If running as script, print scraped data
