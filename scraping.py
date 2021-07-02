@@ -133,9 +133,9 @@ def hemisphere_image(browser):
             # Get the full image link
             img_url = sample_image_soup.select_one("div.downloads ul li a").get('href')
             # Get the full image title
-            # img_title = sample_image_soup.select_one("h2.title").get_text()
+            img_title = sample_image_soup.select_one("h2.title").get_text()
             # Add extracts to the results dict
-            # results = {
+            results = {
                 'img_url': img_url,
                 'title': img_title}
         
