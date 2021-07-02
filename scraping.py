@@ -117,9 +117,9 @@ def hemispheres(browser):
         title = browser.find_by_css("h2.title").text
         hemispheres["img_url"] = img_url
         hemispheres["title"] = title
-        hemisphere_data = scrape_hemisphere(browser.html)
-        hemisphere_image_urls.append(hemisphere_data)
+        hemisphere_image_urls.append(hemispheres)
         browser.back()
+
     return hemisphere_image_urls
 
 
