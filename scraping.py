@@ -103,7 +103,7 @@ def mars_facts():
 def hemisphere_image(browser):
     
     # Visit the URL 
-    url = 'https://spaceimages-mars.com'
+    url = 'https://marshemispheres.com/'
     browser.visit(url)
     
     # Create a list to hold the images and titles.
@@ -114,40 +114,21 @@ def hemisphere_image(browser):
     html = browser.html
     main_page_soup = soup(html, 'html.parser')
 
-    # Add try/except for error handling
-    try:
-        # Find the number of pictures to scan
-        pics_count = len(main_page_soup.select("div.item"))
+    # Find the number of pictures to scan
+    pics_count = len(main_page_soup.select("div.item"))
 
-        # for loop over the link of each sample picture
-        for i in range(pics_count):
-            # Create an empty dict to hold the search results
-            results = {}
-            # Find link to picture and open it
-            link_image = main_page_soup.select("div.description a")[i].get('href')
-            browser.visit(f'https://astrogeology.usgs.gov{link_image}')
-        
-            # Parse the new html page with soup
-            html = browser.html
-            sample_image_soup = soup(html, 'html.parser')
-            # Get the full image link
-            img_url = sample_image_soup.select_one("div.downloads ul li a").get('href')
-            # Get the full image title
-            img_title = sample_image_soup.select_one("h2.title").get_text()
-            # Add extracts to the results dict
-            results = {
-                'img_url': img_url,
-                'title': img_title}
-        
-            # Append results dict to hemisphere image urls list
-            hemisphere_data = scrape_hemisphere(browser.html)
-            hemisphere_image_urls.append(hemisphere_data)
-        
-            # Return to main page
-            browser.back()
-
-    except BaseException:
-        return None
+    # for loop over the link of each sample picture
+    for i in range(4):
+        #create empty dictionary
+        hemispheres = {}
+        browser.find_by_css('a.product-item h3')[i].click()
+        element = browser.find_link_by_text('Sample').first
+        img_url = element['href']
+        title = browser.find_by_css("h2.title").text
+        hemispheres["img_url"] = img_url
+        hemispheres["title"] = title
+        hemisphere_image_urls.append(hemispheres)
+        browser.back()
     
     # Return the list that holds the dictionary of each image url and title
     return hemisphere_image_urls    
