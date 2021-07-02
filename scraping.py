@@ -168,7 +168,7 @@ def scrape_hemisphere(html_text):
         "title": title_elem,
         "img_url": sample_elem
     }
-    return hemispheres
+    return hemispheres.
 
 
 if __name__ == "__main__":
